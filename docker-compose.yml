@@ -1,0 +1,32 @@
+services:
+  shop-sba:
+      image: openjdk:23-jdk
+      container_name: shop-sba
+      ports:
+        - 8083:8080
+        - 8003:8000
+      expose:
+        - "8003"
+      depends_on:
+        - shopdb
+      networks:
+        - my-net
+      volumes:
+        - ./build/libs/fastgo_shop-0.0.1-SNAPSHOT.jar:/app/app.jar
+      working_dir: /app
+      entrypoint: >
+        java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  shopdb:
+    image: mongo:5.0
+    container_name: shopdb
+    ports:
+        - 27020:27017
+    networks:
+          - my-net
+
+networks:
+      my-net:
+        driver:
+         'bridge'
+

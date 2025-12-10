@@ -1,0 +1,1 @@
+Dopo ls creazione del db, fare questo in shop db.restaurants.createIndex({ location: "2dsphere" })
